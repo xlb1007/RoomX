@@ -23,7 +23,7 @@ public class FlowWindow extends JFrame {
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		pack();
 		setVisible(true);
-		//setLocationRelativeTo(null);
+		setLocationRelativeTo(null);
 		JPanel panel = new JPanel();
 		panel.setLayout(new FlowLayout(FlowLayout.RIGHT, 5, 50));
 		this.add(panel);

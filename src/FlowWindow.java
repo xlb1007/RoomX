@@ -34,31 +34,69 @@ public class FlowWindow extends JFrame {
 		{
 		    public void actionPerformed(ActionEvent e)
 		    {
-//              NewButton.setForeground(Color.RED);
 		    	
-//		    	dispose();
-//		    	System.exit(0);
+//		        JFrame mainFrame = new JFrame("Java Swing Examples");
+//		        mainFrame.setSize(400,400);
+//		        mainFrame.setLayout(new GridLayout(3, 1));
+//		    	JLabel statusLabel = new JLabel("",JLabel.CENTER);       
+//		        statusLabel.setSize(350,100);
+//		        mainFrame.add(statusLabel);
+//		        statusLabel.setText("Create Button clicked.");
+//		        mainFrame.setVisible(true); 
+//		        JPanel panel1 = new JPanel();
+//				panel1.setLayout(new FlowLayout(FlowLayout.RIGHT, 5, 50));
+//				JButton NewButton1 = new JButton("Close");
+//				panel1.add(NewButton1);
+//				mainFrame.add(panel1);
+//				
+//			    NewButton1.addActionListener(new ActionListener() {
+//			        public void actionPerformed(ActionEvent e) {
+//			             System.exit(0);
+//			          }
+//			     });
 		    	
-		        JFrame mainFrame = new JFrame("Java Swing Examples");
-		        mainFrame.setSize(400,400);
-		        mainFrame.setLayout(new GridLayout(3, 1));
-		    	JLabel statusLabel = new JLabel("",JLabel.CENTER);       
-		        statusLabel.setSize(350,100);
-		        mainFrame.add(statusLabel);
-		        statusLabel.setText("Create Button clicked.");
-		        mainFrame.setVisible(true); 
-		        JPanel panel1 = new JPanel();
-				panel1.setLayout(new FlowLayout(FlowLayout.RIGHT, 5, 50));
-				JButton NewButton1 = new JButton("Close");
-				panel1.add(NewButton1);
-				mainFrame.add(panel1);
+		    	
+		    	JDialog dialog = new JDialog();
+		    	Container container = dialog.getContentPane();
+		    	container.setLayout(new FlowLayout());
+						//tf1.addActionListener(this);
 				
-			    NewButton1.addActionListener(new ActionListener() {
-			        public void actionPerformed(ActionEvent e) {
-			             System.exit(0);
-			          }
-			     });
-		  
+				JPanel inputPanel = new JPanel();
+				JLabel n1 = new JLabel("First");
+				JTextField tf1 = new JTextField(2);
+				inputPanel.add(n1,BorderLayout.WEST);
+				inputPanel.add(tf1,BorderLayout.WEST);
+				JLabel n2 = new JLabel("Second");
+				JTextField tf2 = new JTextField(2);
+				inputPanel.add(n2,BorderLayout.WEST);
+				inputPanel.add(tf2,BorderLayout.WEST);
+				JLabel n3 = new JLabel("Third");
+				JTextField tf3 = new JTextField(2);
+				inputPanel.add(n3,BorderLayout.WEST);
+				inputPanel.add(tf3,BorderLayout.WEST);
+				JLabel n4 = new JLabel("Fourth");
+				JTextField tf4 = new JTextField(2);
+				inputPanel.add(n4,BorderLayout.WEST);
+				inputPanel.add(tf4,BorderLayout.WEST);
+				JPanel outputPanel = new JPanel();
+				JLabel textfield = new JLabel("textfield");
+				outputPanel.add(textfield,BorderLayout.CENTER);
+				JPanel buttonPanel = new JPanel();
+				JButton NewButton1 = new JButton("Try");
+				buttonPanel.add(NewButton1,BorderLayout.WEST);
+				JButton NewButton2 = new JButton("Leave");
+				buttonPanel.add(NewButton2,BorderLayout.WEST);
+				
+		        container.add(inputPanel,
+		                BorderLayout.NORTH);
+		        container.add(outputPanel,
+		                BorderLayout.CENTER);
+		        container.add(buttonPanel,
+		                BorderLayout.SOUTH);
+		        
+		    	dialog.setSize(400, 300);
+		    	//pack();
+		        dialog.setVisible(true);
 		    }
 		});
     }

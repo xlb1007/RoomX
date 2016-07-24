@@ -154,7 +154,8 @@ public class P1 extends JPanel implements ActionListener{
 		lock.setBackground(new Color(255, 102, 0));		
 		lock.setSize(140,550);
 		lock.addActionListener(this);
-		displayPanel.add(lock);
+		displayPanel.add(lock);	
+		
 		
 		//Adding invisible buttons for hidden clues/puzzles
 		
@@ -208,7 +209,47 @@ public class P1 extends JPanel implements ActionListener{
 		}
 		else if(e.getSource().equals(lock))
 	    {
-			JOptionPane.showMessageDialog( null, "You pressed lock button" );
+			JDialog dialog = new JDialog();
+	    	Container container = dialog.getContentPane();
+	    	container.setLayout(new FlowLayout());
+					//tf1.addActionListener(this);
+			
+			JPanel inputPanel = new JPanel();
+			JLabel n1 = new JLabel("First");
+			JTextField tf1 = new JTextField(2);
+			inputPanel.add(n1,BorderLayout.WEST);
+			inputPanel.add(tf1,BorderLayout.WEST);
+			JLabel n2 = new JLabel("Second");
+			JTextField tf2 = new JTextField(2);
+			inputPanel.add(n2,BorderLayout.WEST);
+			inputPanel.add(tf2,BorderLayout.WEST);
+			JLabel n3 = new JLabel("Third");
+			JTextField tf3 = new JTextField(2);
+			inputPanel.add(n3,BorderLayout.WEST);
+			inputPanel.add(tf3,BorderLayout.WEST);
+			JLabel n4 = new JLabel("Fourth");
+			JTextField tf4 = new JTextField(2);
+			inputPanel.add(n4,BorderLayout.WEST);
+			inputPanel.add(tf4,BorderLayout.WEST);
+			JPanel outputPanel = new JPanel();
+			JLabel textfield = new JLabel("textfield");
+			outputPanel.add(textfield,BorderLayout.CENTER);
+			JPanel buttonPanel = new JPanel();
+			JButton NewButton1 = new JButton("Try");
+			buttonPanel.add(NewButton1,BorderLayout.WEST);
+			JButton NewButton2 = new JButton("Leave");
+			buttonPanel.add(NewButton2,BorderLayout.WEST);
+			
+	        container.add(inputPanel,
+	                BorderLayout.NORTH);
+	        container.add(outputPanel,
+	                BorderLayout.CENTER);
+	        container.add(buttonPanel,
+	                BorderLayout.SOUTH);
+	        
+	    	dialog.setSize(400, 300);
+	    	//pack();
+	        dialog.setVisible(true);
 		}
    }
    

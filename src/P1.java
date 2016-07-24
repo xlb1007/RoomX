@@ -22,7 +22,7 @@ public class P1 extends JPanel implements ActionListener{
 	Integer rest;
 	Timer timer1;
 	JLabel timer2;
-	JFrame container;
+	public JFrame container;
 	
 	
 	
@@ -270,10 +270,16 @@ public class P1 extends JPanel implements ActionListener{
         	timer2.setText(rest.toString());
         	if(rest <= 0){
         		timer1.cancel();
+        		removehere();
+    			container.setContentPane(new P1(container, 1));
         		//System.out.println("Timer is done!");
         	}
             //timer1.cancel(); //Terminate the timer thread
         }
+    }
+    
+    void removehere(){
+    	container.remove(this);
     }
     
 }

@@ -11,7 +11,7 @@ public class Level {
 	
 	public Level(int level){
 		if(level == 1){
-		    this.timer = 60;
+		    this.timer = 10;
 		    this.passcode = "4444";
 		    this.imageDir = "images/room.jpg";
 		    clues = new ArrayList<Clue>();

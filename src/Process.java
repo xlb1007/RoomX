@@ -11,7 +11,7 @@ public class Process {
     }
    
     public Process(Level curLevel){
-    	this.clues.addAll(curLevel.clues);
+    	//this.clues.addAll(curLevel.clues);
     	imageDir = curLevel.imageDir;
     	passcode = curLevel.passcode;
     }

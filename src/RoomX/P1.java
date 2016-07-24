@@ -16,13 +16,11 @@ public class P1 extends JPanel implements ActionListener{
 	private JPanel controlPanel;
 	private JPanel displayPanel;
 	private Image backgroundImage;
-	private JButton lock,item1,item2,clue,pause,stop,restart,obj1,obj2,obj3;
+	private JButton lock,item1,item2,item3,clue,pause,stop,restart,obj1,obj2,obj3;
+	private JLabel timer;
 	
 	public P1()
 	{
-		//super();
-		setLayout(new BorderLayout());
-		
 		//Read background Image
 		try {
 			backgroundImage = ImageIO.read(getClass().getClassLoader().getResource("images/room.jpg"));
@@ -87,7 +85,7 @@ public class P1 extends JPanel implements ActionListener{
 		restart.addActionListener(this);
 		controlPanel.add(restart);
 		
-		JLabel timer = new JLabel("06:06:25");
+		timer = new JLabel("06:06:25");
 		timer.setFont(new Font("Tahoma", Font.BOLD, 28));
 		timer.setForeground(Color.DARK_GRAY);
 		timer.setPreferredSize(new Dimension(150, 100));
@@ -104,7 +102,7 @@ public class P1 extends JPanel implements ActionListener{
 		displayPanel.setPreferredSize(new Dimension(150, 600));
 				
 		item1 = new JButton("Item1");
-		item1.setBackground(new Color(153, 102, 51));
+		item1.setBackground(Color.GRAY);
 		item1.setFont(new Font("Tahoma", Font.BOLD, 27));
 		item1.setMaximumSize(new Dimension(Integer.MAX_VALUE, item1.getMinimumSize().height));
 		item1.setEnabled(false);
@@ -114,13 +112,23 @@ public class P1 extends JPanel implements ActionListener{
 		//displayPanel.add(Box.createRigidArea(new Dimension(20,20)));
 		
 		item2 = new JButton("Item2");
-		item2.setBackground(new Color(153, 102, 0));
+		item2.setBackground(Color.GRAY);
 		item2.setFont(new Font("Tahoma", Font.BOLD, 27));
 		item2.setMaximumSize(new Dimension(Integer.MAX_VALUE, item2.getMinimumSize().height));
 		item2.setEnabled(false);
 		//item2.setPreferredSize(new Dimension(120, 100));
 		item2.addActionListener(this);
 		displayPanel.add(item2);
+		//displayPanel.add(Box.createRigidArea(new Dimension(20,20)));
+		
+		item3 = new JButton("Item3");
+		item3.setBackground(Color.GRAY);
+		item3.setFont(new Font("Tahoma", Font.BOLD, 27));
+		item3.setMaximumSize(new Dimension(Integer.MAX_VALUE, item2.getMinimumSize().height));
+		item3.setEnabled(false);
+		//item2.setPreferredSize(new Dimension(120, 100));
+		item3.addActionListener(this);
+		displayPanel.add(item3);
 		//displayPanel.add(Box.createRigidArea(new Dimension(20,20)));
 		
 		clue = new JButton("Hint");
@@ -143,9 +151,6 @@ public class P1 extends JPanel implements ActionListener{
 		lock.setBackground(new Color(255, 102, 0));
 		lock.addActionListener(this);
 		displayPanel.add(lock);
-		
-		add(controlPanel,BorderLayout.NORTH);
-		add(displayPanel,BorderLayout.EAST);
 		
 		//Adding invisible buttons for hidden clues/puzzles
 		obj1 = new JButton("");
@@ -174,6 +179,11 @@ public class P1 extends JPanel implements ActionListener{
 		obj3.setBounds(330,130,30,30);
 		obj3.addActionListener(this);
 		add(obj3);
+
+		setLayout(new BorderLayout());
+		
+		add(controlPanel,BorderLayout.NORTH);
+		add(displayPanel,BorderLayout.EAST);
 		
 		setSize(700,700);
 		setVisible(true);
@@ -205,15 +215,64 @@ public class P1 extends JPanel implements ActionListener{
 		}
 		else if(e.getSource().equals(obj1))
 		{
-			JOptionPane.showMessageDialog( null, "You pressed obj-1 button" );
+			Object[] options = {"SAVE"};
+			int n = JOptionPane.showOptionDialog(null,
+			                   "2+3+4*8 = ?","Puzzle1",
+			                   JOptionPane.PLAIN_MESSAGE,
+			                   JOptionPane.QUESTION_MESSAGE,
+			                   null,
+			                   options,
+			                   options[0]);
+		   if(n == 0)
+		   {
+			   if(!item1.isEnabled())
+			   {
+				   item1.setEnabled(true);
+				   item1.setBackground(Color.CYAN);
+			   }
+		   }
+		   
+		   //JOptionPane.showMessageDialog( null, "You pressed obj-1 button" );
 		}
 		else if(e.getSource().equals(obj2))
 		{
-			JOptionPane.showMessageDialog( null, "You pressed obj-2 button" );
+			Object[] options = {"SAVE"};
+			int n = JOptionPane.showOptionDialog(null,
+			                   "8*8*9 = ?","Puzzle2",
+			                   JOptionPane.PLAIN_MESSAGE,
+			                   JOptionPane.QUESTION_MESSAGE,
+			                   null,
+			                   options,
+			                   options[0]);
+		    if(n == 0)
+		    {
+		       if(!item2.isEnabled())
+			   {
+		    	   item2.setEnabled(true);
+		    	   item2.setBackground(Color.CYAN);
+			   }
+		    }
+			//JOptionPane.showMessageDialog( null, "You pressed obj-2 button" );
 		}
 		else if(e.getSource().equals(obj3))
 		{
-			JOptionPane.showMessageDialog( null, "You pressed obj-3 button" );
+			Object[] options = {"SAVE"};
+			int n = JOptionPane.showOptionDialog(null,
+			                   "8*6*9+1-3+4 = ?","Puzzle3",
+			                   JOptionPane.PLAIN_MESSAGE,
+			                   JOptionPane.QUESTION_MESSAGE,
+			                   null,
+			                   options,
+			                   options[0]);
+		    if(n == 0)
+		    {
+		       if(!item3.isEnabled())
+			   {
+		    	   item3.setEnabled(true);
+		    	   item3.setBackground(Color.CYAN);
+			   }
+		    }
+			//JOptionPane.showMessageDialog( null, "You pressed obj-3 button" );
 		}
    }
 }

@@ -7,9 +7,10 @@ public class Clue {
 	int hpos;
 	int vsize;
 	int hsize;
+	int id;
     //public Clue(int type, String content, int found, String hint, int vpos, int hpos, int vsize, int hsize){
-    public Clue(String content, int hpos, int vpos, int hsize, int vsize, String hint){
-
+    public Clue(int id, String content, int hpos, int vpos, int hsize, int vsize, String hint){
+        this.id = id;
     	this.content = content;
     	//this.type = type;
     	//this.found = 0;

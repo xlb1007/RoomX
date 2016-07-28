@@ -213,8 +213,8 @@ public class P1 extends JPanel implements ActionListener{
 		else if(e.getSource().equals(lock))
 	    {
 			JDialog dialog = new JDialog();
-	    	Container container = dialog.getContentPane();
-	    	container.setLayout(new FlowLayout());
+	    	Container container2 = dialog.getContentPane();
+	    	container2.setLayout(new FlowLayout());
 					//tf1.addActionListener(this);
 			
 			JPanel inputPanel = new JPanel();
@@ -245,7 +245,14 @@ public class P1 extends JPanel implements ActionListener{
 			
 			NewButton1.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
-					
+					String temp_res = tf1.getText() + tf2.getText() + tf3.getText() + tf4.getText();
+					if(temp_res.equals(lvl1.passcode)){
+		        		timer1.cancel();
+		        		removehere();
+		    			container.setContentPane(new P2(container));
+					}else{
+						JOptionPane.showMessageDialog( null, "Wrong answer!");
+					}
 				}
 			});
 			NewButton2.addActionListener(new ActionListener() {
@@ -254,22 +261,11 @@ public class P1 extends JPanel implements ActionListener{
 				}
 			});
 			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-	        container.add(inputPanel,
+	        container2.add(inputPanel,
 	                BorderLayout.NORTH);
-	        container.add(outputPanel,
+	        container2.add(outputPanel,
 	                BorderLayout.CENTER);
-	        container.add(buttonPanel,
+	        container2.add(buttonPanel,
 	                BorderLayout.SOUTH);
 	        
 	    	dialog.setSize(400, 300);

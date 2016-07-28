@@ -1,14 +1,14 @@
 public class Clue {
 	//int type;
 	String content;
-	//int found;
-	//String hint;
+	boolean found;
+	String hint;
 	int vpos;
 	int hpos;
 	int vsize;
 	int hsize;
     //public Clue(int type, String content, int found, String hint, int vpos, int hpos, int vsize, int hsize){
-    public Clue(String content, int hpos, int vpos, int hsize, int vsize){
+    public Clue(String content, int hpos, int vpos, int hsize, int vsize, String hint){
 
     	this.content = content;
     	//this.type = type;
@@ -18,6 +18,7 @@ public class Clue {
     	this.hpos = hpos;
     	this.vsize = vsize;
     	this.hsize = hsize;
+    	this.hint = hint;
     	//size
    	}
     

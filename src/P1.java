@@ -9,6 +9,8 @@ import javax.swing.*;
 import javax.swing.border.LineBorder;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.MatteBorder;
+
+import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -23,7 +25,7 @@ public class P1 extends JPanel implements ActionListener{
 	Timer timer1;
 	JLabel timer2;
 	public JFrame container;
-	
+	Level lvl1;
 	
 	
 	public P1(JFrame container, int lvl)
@@ -31,7 +33,7 @@ public class P1 extends JPanel implements ActionListener{
 		//super();
 		//new
 		this.container = container;
-		Level lvl1 = new Level(lvl);
+		lvl1 = new Level(lvl);
 		rest = lvl1.timer;
 		//Read background Image
 		try {
@@ -170,6 +172,7 @@ public class P1 extends JPanel implements ActionListener{
 			{
 			    public void actionPerformed(ActionEvent e)
 			    {
+			    	a.found = true;
 			    	JOptionPane.showMessageDialog( null, a.content);
 			    }
 			});
@@ -216,19 +219,19 @@ public class P1 extends JPanel implements ActionListener{
 			
 			JPanel inputPanel = new JPanel();
 			JLabel n1 = new JLabel("First");
-			JTextField tf1 = new JTextField(2);
+			JTextField tf1 = new JTextField(1);
 			inputPanel.add(n1,BorderLayout.WEST);
 			inputPanel.add(tf1,BorderLayout.WEST);
 			JLabel n2 = new JLabel("Second");
-			JTextField tf2 = new JTextField(2);
+			JTextField tf2 = new JTextField(1);
 			inputPanel.add(n2,BorderLayout.WEST);
 			inputPanel.add(tf2,BorderLayout.WEST);
 			JLabel n3 = new JLabel("Third");
-			JTextField tf3 = new JTextField(2);
+			JTextField tf3 = new JTextField(1);
 			inputPanel.add(n3,BorderLayout.WEST);
 			inputPanel.add(tf3,BorderLayout.WEST);
 			JLabel n4 = new JLabel("Fourth");
-			JTextField tf4 = new JTextField(2);
+			JTextField tf4 = new JTextField(1);
 			inputPanel.add(n4,BorderLayout.WEST);
 			inputPanel.add(tf4,BorderLayout.WEST);
 			JPanel outputPanel = new JPanel();
@@ -239,6 +242,28 @@ public class P1 extends JPanel implements ActionListener{
 			buttonPanel.add(NewButton1,BorderLayout.WEST);
 			JButton NewButton2 = new JButton("Leave");
 			buttonPanel.add(NewButton2,BorderLayout.WEST);
+			
+			NewButton1.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					
+				}
+			});
+			NewButton2.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					dialog.dispose();
+				}
+			});
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
 			
 	        container.add(inputPanel,
 	                BorderLayout.NORTH);
@@ -251,6 +276,21 @@ public class P1 extends JPanel implements ActionListener{
 	    	//pack();
 	        dialog.setVisible(true);
 		}
+		else if(e.getSource().equals(clue))
+	    {
+			ArrayList<Clue> clues = lvl1.clues;
+			String hint = "You have found all clues!";
+			for(Clue a: clues){
+				if(a.found == true) continue;
+				else{
+					hint = a.hint;
+			    	//JOptionPane.showMessageDialog( null, hint);
+			    	break;
+				}
+			}
+			JOptionPane.showMessageDialog( null, hint);
+			
+	    }
    }
    
    

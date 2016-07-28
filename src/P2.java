@@ -1,70 +1,21 @@
-import java.awt.BorderLayout;
-import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.JButton;
-import java.awt.event.ActionListener;
+import java.awt.*;
 import java.awt.event.ActionEvent;
-import javax.swing.JLabel;
-import java.awt.Font;
-import java.awt.Image;
-import java.awt.Color;
-import javax.swing.JOptionPane;
-import java.awt.SystemColor;
-import java.io.File;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
-import javax.imageio.*;
+import java.awt.event.ActionListener;
+import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 
-public class Page2 extends JFrame {
-
+public class P2 extends JPanel{
+	private static final long serialVersionUID = 2L;
+	public JFrame container;
 	private JPanel contentPane;
-	private Image backgroundImage;
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {  
-				try {
-					Page2 frame = new Page2();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-		//File Clap = new File("C:\\Users\\Dehnam\\Desktop\\win.wav");
-		//PlaySound(Clap);
-		}
-		static void PlaySound(File Sound){
-			try{
-				Clip clip = AudioSystem.getClip();
-				clip.open(AudioSystem.getAudioInputStream(Sound));
-				clip.start();
-				
-				Thread.sleep(clip.getMicrosecondLength()/1000);
-			}catch(Exception e)
-			{
-				
-			}
-	}
-		
-
-	/**
-	 * Create the frame.
-	 */
-	public Page2() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
+	
+	public P2(JFrame container) {
+		this.container = container;		
 		contentPane = new JPanel();
 		contentPane.setBackground(new Color(153, 180, 209));
 		contentPane.setForeground(Color.WHITE);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		setContentPane(contentPane);
+		container.setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
 		JButton btnNewButton = new JButton("End");
@@ -94,5 +45,13 @@ public class Page2 extends JFrame {
 		btnRestart.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		btnRestart.setBounds(230, 157, 89, 30);
 		contentPane.add(btnRestart);
+		add(contentPane,BorderLayout.NORTH);
+		
+		setLayout(new BorderLayout());
+
+		setSize(700,700);
+		setVisible(true);
+		container.setVisible(true);
 	}
+    
 }

@@ -13,9 +13,7 @@ public class P0 extends JFrame implements ActionListener {
 	//Constructor
 	public P0() {
 		super("P0  Demo");
-		//contentPane = getContentPane();
 		container = this;
-		//container.setLayout(new BorderLayout());
 		container.setSize(700,700);
 		container.setResizable(false);
 		container.setBackground(Color.orange);

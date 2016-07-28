@@ -13,6 +13,7 @@ public class P0 extends JFrame implements ActionListener {
 	//Constructor
 	public P0() {
 		super("P0  Demo");
+		lvl = 0;
 		container = this;
 		container.setSize(700,700);
 		container.setResizable(false);
@@ -69,6 +70,7 @@ public class P0 extends JFrame implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == b1) {
 			//new
+			if(lvl == 0) return;
 			container.setContentPane(new P1(container, lvl));
 			container.remove(P0);
 		}

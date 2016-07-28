@@ -307,7 +307,7 @@ public class P1 extends JPanel implements ActionListener{
         	if(rest <= 0){
         		timer1.cancel();
         		removehere();
-    			container.setContentPane(new P2(container));
+    			container.setContentPane(new P3(container));
         		//System.out.println("Timer is done!");
         	}
             //timer1.cancel(); //Terminate the timer thread

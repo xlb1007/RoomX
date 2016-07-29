@@ -8,19 +8,20 @@ public class P0 extends JFrame implements ActionListener {
 	JButton b1;
 	JFrame container;
 	JRadioButton Level1, Level2;
-	//JTextField instructions;
+	JPanel P0;
+	//new
+	int lvl;
 	//Constructor
 	public P0() {
 		super("P0  Demo");
-		//contentPane = getContentPane();
-		container = new JFrame();
-		//container.setLayout(new BorderLayout());
+		lvl = 0;
+		container = this;
 		container.setSize(700,700);
 		container.setResizable(false);
 		container.setBackground(Color.orange);
 		container.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
-		JPanel P0 = new JPanel();
+		P0 = new JPanel();
 		P0.setLayout(null);
 		P0.setVisible(true);
 		P0.setBackground(Color.orange);
@@ -69,15 +70,19 @@ public class P0 extends JFrame implements ActionListener {
 
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == b1) {
-			container.setContentPane(new P1());
+			//new
+			if(lvl == 0) return;
+			container.setContentPane(new P1(container, lvl, P0));
 			container.remove(this);
 		}
 		if (e.getSource() == Level1) {
-				
+			//new
+			lvl = 1;	
 				
 		}
 		if (e.getSource() == Level2) {
-	
+			//new
+			lvl = 2;
 				
 		}
 	}

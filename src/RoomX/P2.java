@@ -9,9 +9,11 @@ public class P2 extends JPanel{
 	private static final long serialVersionUID = 2L;
 	public JFrame container;
 	private JPanel contentPane;
+	JPanel P0;
 	
-	public P2(JFrame container) {
-		this.container = container;		
+	public P2(JFrame container, JPanel P0) {
+		this.container = container;	
+		this.P0 = P0;
 		contentPane = new JPanel();
 		contentPane.setBackground(new Color(153, 180, 209));
 		contentPane.setForeground(Color.WHITE);
@@ -40,7 +42,9 @@ public class P2 extends JPanel{
 		btnRestart.setBackground(SystemColor.controlHighlight);
 		btnRestart.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				JOptionPane.showMessageDialog(null,"Click here if you are ready!");
+                container.setContentPane(P0);	
+                contentPane.removeAll();			
+                contentPane.setVisible(false);
 			}
 		});
 		btnRestart.setFont(new Font("Tahoma", Font.PLAIN, 12));
@@ -50,7 +54,7 @@ public class P2 extends JPanel{
 		
 		setLayout(new BorderLayout());
 
-		setSize(700,700);
+		setSize(1000,666);
 		setVisible(true);
 		container.setVisible(true);
 	}

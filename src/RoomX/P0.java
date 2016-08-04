@@ -5,7 +5,7 @@ import java.awt.event.*;
 
 public class P0 extends JFrame implements ActionListener {
 	private static final long serialVersionUID = 1L;
-	JButton b1;
+	JButton b1, exit;
 	JFrame container;
 	JRadioButton Level1, Level2;
 	JPanel P0;
@@ -16,7 +16,7 @@ public class P0 extends JFrame implements ActionListener {
 		super("P0  Demo");
 		lvl = 0;
 		container = this;
-		container.setSize(700,700);
+		container.setSize(1000,666);
 		container.setResizable(false);
 		container.setBackground(Color.orange);
 		container.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -59,7 +59,21 @@ public class P0 extends JFrame implements ActionListener {
 		b1.setFocusable(false);
 		P0.add(b1);
 		
+		//bug2
+        exit = new JButton("Exit");	
+        exit.setBounds(480,550,120,35);			
+        exit.setVisible(true);			
+			
+        exit.setFocusable(false);			
+        P0.add(exit);
+		
+		
+		
+		
+		
 		b1.addActionListener(this);
+		//bug2
+		exit.addActionListener(this);
 		Level1.addActionListener(this);
 		Level2.addActionListener(this);
 
@@ -74,6 +88,9 @@ public class P0 extends JFrame implements ActionListener {
 			if(lvl == 0) return;
 			container.setContentPane(new P1(container, lvl, P0));
 			container.remove(this);
+		}
+		if (e.getSource() == exit) {			
+			System.exit(0);			
 		}
 		if (e.getSource() == Level1) {
 			//new

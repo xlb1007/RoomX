@@ -12,7 +12,7 @@ public class Level {
 	
 	public Level(int level){
 		if(level == 1){
-		    this.timer = 100;
+		    this.timer = 30;
 		    this.passcode = "4444";
 		    this.imageDir = "images/room.jpg";
 		    clues = new ArrayList<Clue>();
@@ -20,6 +20,5 @@ public class Level {
 		    clues.add(new Clue(2, "clue2", 400,420,20,20, "hint2"));
 		    clues.add(new Clue(3, "clue3", 330,130,20,20, "hint3"));
 		}
-	}
-		
+	}	
 }

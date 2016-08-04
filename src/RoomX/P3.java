@@ -18,9 +18,11 @@ public class P3 extends JPanel {
 	private static final long serialVersionUID = 3L;
 	public JFrame container;
 	private JPanel contentPane;
+	JPanel P0;
 	
-	public P3(JFrame container) {
+	public P3(JFrame container, JPanel P0) {
 		this.container = container;		
+		this.P0 = P0;
 		contentPane = new JPanel();
 		contentPane.setBackground(SystemColor.menuText);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -49,7 +51,9 @@ public class P3 extends JPanel {
 		btnNewButton_1.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-			JOptionPane.showMessageDialog(null,"Go back to select the level!");
+                container.setContentPane(P0);	
+	            contentPane.removeAll();			
+	            contentPane.setVisible(false);
 			}
 		});
 		btnNewButton_1.setBounds(230, 157, 89, 30);
@@ -58,7 +62,7 @@ public class P3 extends JPanel {
 
 		setLayout(new BorderLayout());
 
-		setSize(700,700);
+		setSize(1000,666);
 		setVisible(true);
 		container.setVisible(true);
 	}

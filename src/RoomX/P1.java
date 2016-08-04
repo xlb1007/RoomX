@@ -15,46 +15,48 @@ import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
+//new
+import javax.swing.text.AttributeSet;	
+import javax.swing.text.BadLocationException;			
+import javax.swing.text.PlainDocument;
+
+
+
+
 public class P1 extends JPanel implements ActionListener{
 	private static final long serialVersionUID = 1L;
 	private JPanel controlPanel;
 	private JPanel displayPanel;
 	private JPanel wallPanel;
-	//private Image backgroundImage;
-	private JButton lock,clue,pause,stop,restart/*,item1,item2,item3*/;
+	private JButton lock,clue,pause,stop,restart;
 	ArrayList<JButton> items;
+	ArrayList<JButton> otherJButtons;
 	Integer rest;
 	Timer timer1;
 	JLabel timer2;
 	public JFrame container;
 	Level lvl1;
 	JPanel P0;
+	boolean isRunning;
 	
 	public P1(JFrame container, int lvl, JPanel P0)
 	{
-		//super();
-		//new
+
 		this.P0 = P0;
 		this.container = container;
 		lvl1 = new Level(lvl);
 		rest = lvl1.timer;
 	    items = new ArrayList<JButton>();
-
+	    otherJButtons = new ArrayList<JButton>();
 		
 		wallPanel = new imagePanel(lvl1);
-		//Read background Image
-		/*try {
-			backgroundImage = ImageIO.read(getClass().getClassLoader().getResource(lvl1.imageDir));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}*/
+
 		
 		//Create Top Panel
 		controlPanel = new JPanel();
 		controlPanel.setBackground(Color.LIGHT_GRAY);
 		controlPanel.setBorder(new LineBorder(Color.WHITE));
 		controlPanel.setLayout(new BoxLayout(controlPanel,BoxLayout.X_AXIS));
-		//controlPanel.setLayout(new FlowLayout(FlowLayout.LEFT,20,10));
 		controlPanel.setSize(new Dimension(100, 100));
 		
 		//Add Control icons
@@ -64,7 +66,6 @@ public class P1 extends JPanel implements ActionListener{
 		pause_icon = new ImageIcon(newPauseImg);
 		pause = new JButton(pause_icon);
 		pause.setFont(new Font("Tahoma", Font.BOLD, 20));
-		//pause.setForeground(Color.WHITE);
 		pause.setBackground(Color.DARK_GRAY);
 		pause.setPreferredSize(new Dimension(75,75));
 		controlPanel.add(Box.createRigidArea(new Dimension(20,0)));
@@ -73,6 +74,8 @@ public class P1 extends JPanel implements ActionListener{
 		pause.setBorderPainted(false);
 		pause.addActionListener(this);
 		controlPanel.add(pause);
+		otherJButtons.add(pause);
+
 		
 		ImageIcon stop_icon = new ImageIcon(getClass().getClassLoader().getResource("images/stop.png"));  
 		Image stopImg = stop_icon.getImage();
@@ -90,6 +93,9 @@ public class P1 extends JPanel implements ActionListener{
 		stop.addActionListener(this);
 		controlPanel.add(stop);
 		
+		otherJButtons.add(stop);
+
+		
 		ImageIcon restart_icon = new ImageIcon(getClass().getClassLoader().getResource("images/play.png"));  
 		Image restartImg = restart_icon.getImage();
 		Image newRestartImg = restartImg.getScaledInstance(70, 70,  java.awt.Image.SCALE_SMOOTH);
@@ -105,6 +111,8 @@ public class P1 extends JPanel implements ActionListener{
 		restart.setBorderPainted(false);
 		restart.addActionListener(this);
 		controlPanel.add(restart);
+		
+		otherJButtons.add(restart);
 		
 		timer2 = new JLabel();
 		timer2.setFont(new Font("Tahoma", Font.BOLD, 28));
@@ -123,51 +131,28 @@ public class P1 extends JPanel implements ActionListener{
 		displayPanel.setLayout(new GridLayout(6,1,5,5));
 		displayPanel.setPreferredSize(new Dimension(150, 600));
 				
-		/*item1 = new JButton("Item1");
-		item1.setBackground(new Color(153, 102, 51));
-		item1.setFont(new Font("Tahoma", Font.BOLD, 27));
-		item1.setMaximumSize(new Dimension(Integer.MAX_VALUE, item1.getMinimumSize().height));
-		item1.setEnabled(false);
-		//item1.setPreferredSize(new Dimension(120, 100));
-		item1.addActionListener(this);
-		displayPanel.add(item1);
-		//displayPanel.add(Box.createRigidArea(new Dimension(20,20)));
 		
-		item2 = new JButton("Item2");
-		item2.setBackground(new Color(153, 102, 0));
-		item2.setFont(new Font("Tahoma", Font.BOLD, 27));
-		item2.setMaximumSize(new Dimension(Integer.MAX_VALUE, item2.getMinimumSize().height));
-		item2.setEnabled(false);
-		//item2.setPreferredSize(new Dimension(120, 100));
-		item2.addActionListener(this);
-		displayPanel.add(item2);
-		//displayPanel.add(Box.createRigidArea(new Dimension(20,20)));
 		
-		item3 = new JButton("Item3");
-		item3.setBackground(new Color(153, 102, 0));
-		item3.setFont(new Font("Tahoma", Font.BOLD, 27));
-		item3.setMaximumSize(new Dimension(Integer.MAX_VALUE, item3.getMinimumSize().height));
-		item3.setEnabled(false);
-		//item2.setPreferredSize(new Dimension(120, 100));
-		item3.addActionListener(this);
-		displayPanel.add(item3);
-		//displayPanel.add(Box.createRigidArea(new Dimension(20,20)));*/
-		 
 		for(Clue a : lvl1.clues){
 		 
-			JButton item = new JButton("Item "+String.valueOf(a.id));
+			JButton item = new JButton("?");
 			item.setBackground(new Color(153, 102, 51));
 			item.setFont(new Font("Tahoma", Font.BOLD, 27));
 			item.setMaximumSize(new Dimension(Integer.MAX_VALUE, item.getMinimumSize().height));
 			item.setEnabled(false);
 			//item1.setPreferredSize(new Dimension(120, 100));
-			item.addActionListener(this);
+			item.addActionListener(new ActionListener(){			
+				public void actionPerformed(ActionEvent e){			
+					JOptionPane.showMessageDialog( null, a.content,"Puzzle "+String.valueOf(a.id),JOptionPane.PLAIN_MESSAGE);			
+				}        			
+			});
 			items.add(item);
 			displayPanel.add(item);
 			
 			
 			//Adding invisible buttons for hidden clues/puzzles
 			JButton obj = new JButton("");
+			otherJButtons.add(obj);
 			/*obj.setVisible(true);
 			obj.setOpaque(false);
 			obj.setContentAreaFilled(false);
@@ -178,43 +163,51 @@ public class P1 extends JPanel implements ActionListener{
 			    public void actionPerformed(ActionEvent e)
 			    {
 			    	a.found = true;
-			    	//JOptionPane.showMessageDialog( null, a.content);
-			    	Object[] options = {"SAVE"};
-					int n = JOptionPane.showOptionDialog(null,
-					                   a.content,String.valueOf(a.id),
-					                   JOptionPane.PLAIN_MESSAGE,
-					                   JOptionPane.QUESTION_MESSAGE,
-					                   null,
-					                   options,
-					                   options[0]);
-				   
-				    if(n == 0)
-				    {
-					   if(a.id == 1)
-					   {
-						   if(!items.get(0).isEnabled())
-						   {
-							   items.get(0).setEnabled(true);
-							   items.get(0).setBackground(Color.CYAN);
-						   }
-					   }
-					   else if(a.id == 2)
-					   {
-						   if(!items.get(1).isEnabled())
-						   {
-							   items.get(1).setEnabled(true);
-							   items.get(1).setBackground(Color.CYAN);
-						   }
-					   }
-					   else if(a.id == 3)
-					   {
-						   if(!items.get(2).isEnabled())
-						   {
-							   items.get(2).setEnabled(true);
-							   items.get(2).setBackground(Color.CYAN);
-						   }
-					   }
-				   }
+					JDialog dialog = new JDialog();
+			    	Container window = dialog.getContentPane();
+			    	JPanel dialogPanel = new JPanel();
+			    	JButton save = new JButton("SAVE");
+			    	JLabel puzzle = new JLabel();
+			    	puzzle.setText(a.content);
+			    	dialogPanel.add(puzzle);
+			    	dialogPanel.add(save);	    	
+			    	dialog.setUndecorated(true);
+			    	window.add(dialogPanel);
+			    	dialog.setVisible(true);
+			    	dialog.setSize(200, 200);
+                    
+			    	save.addActionListener(new ActionListener() { 
+						public void actionPerformed(ActionEvent e) { 
+							 if(a.id == 1)
+							   {
+								   if(!items.get(0).isEnabled())
+								   {
+									   items.get(0).setEnabled(true);
+									   items.get(0).setBackground(Color.CYAN);
+									   items.get(0).setText("Clue 1");
+								   }
+							   }
+							   else if(a.id == 2)
+							   {
+								   if(!items.get(1).isEnabled())
+								   {
+									   items.get(1).setEnabled(true);
+									   items.get(1).setBackground(Color.CYAN);
+									   items.get(1).setText("Clue 2");
+								   }
+							   }
+							   else if(a.id == 3)
+							   {
+								   if(!items.get(2).isEnabled())
+								   {
+									   items.get(2).setEnabled(true);
+									   items.get(2).setBackground(Color.CYAN);
+									   items.get(2).setText("Clue 3");
+								   }
+							   }
+							 dialog.dispose();
+						  } 
+					} );
 			    }
 			});
 			wallPanel.add(obj);
@@ -230,6 +223,8 @@ public class P1 extends JPanel implements ActionListener{
 	    clue.setForeground(Color.BLACK);
 		clue.addActionListener(this);
 		displayPanel.add(clue);
+		
+		otherJButtons.add(clue);
 		//displayPanel.add(Box.createRigidArea(new Dimension(20,20)));
 		
 		//displayPanel.add(Box.createVerticalGlue());
@@ -243,6 +238,8 @@ public class P1 extends JPanel implements ActionListener{
 		lock.addActionListener(this);
 		displayPanel.add(lock);	
 		
+		otherJButtons.add(lock);
+		
 		wallPanel.setLayout(new BorderLayout());
 		
 		setLayout(new BorderLayout());
@@ -250,7 +247,7 @@ public class P1 extends JPanel implements ActionListener{
 		add(controlPanel,BorderLayout.NORTH);
 		add(displayPanel,BorderLayout.EAST);
 		
-		setSize(700,700);
+		setSize(1000,666);
 		setVisible(true);
    }
 
@@ -281,7 +278,9 @@ public class P1 extends JPanel implements ActionListener{
 			JButton Continue = new JButton("Continue");
 			Continue.setVisible(true);
 			stopmsg.add(Continue);
-			
+			//bug2
+            dialog.setUndecorated(true);	
+
 			window.add(stopmsg);
 	        
 	    	dialog.setSize(400, 300);
@@ -319,29 +318,42 @@ public class P1 extends JPanel implements ActionListener{
 	    {
 			JDialog dialog = new JDialog();
 	    	Container container2 = dialog.getContentPane();
-	    	container2.setLayout(new FlowLayout());
+	    	container2.setLayout(new BorderLayout());
 			//tf1.addActionListener(this);
-			
-			JPanel inputPanel = new JPanel();
+            dialog.setUndecorated(true);	
+
+            JPanel inputPanel = new JPanel();
+			inputPanel.setLayout(new FlowLayout());
 			JLabel n1 = new JLabel("First");
 			JTextField tf1 = new JTextField(1);
-			inputPanel.add(n1,BorderLayout.WEST);
-			inputPanel.add(tf1,BorderLayout.WEST);
+			inputPanel.add(n1);
+			inputPanel.add(tf1);
+			tf1.setDocument(new JTextFieldLimit(1));
+			
 			JLabel n2 = new JLabel("Second");
 			JTextField tf2 = new JTextField(1);
-			inputPanel.add(n2,BorderLayout.WEST);
-			inputPanel.add(tf2,BorderLayout.WEST);
+			inputPanel.add(n2);
+			inputPanel.add(tf2);
+			tf2.setDocument(new JTextFieldLimit(1));
+			
 			JLabel n3 = new JLabel("Third");
 			JTextField tf3 = new JTextField(1);
-			inputPanel.add(n3,BorderLayout.WEST);
-			inputPanel.add(tf3,BorderLayout.WEST);
+			inputPanel.add(n3);
+			inputPanel.add(tf3);
+			tf3.setDocument(new JTextFieldLimit(1));
+			
 			JLabel n4 = new JLabel("Fourth");
 			JTextField tf4 = new JTextField(1);
-			inputPanel.add(n4,BorderLayout.WEST);
-			inputPanel.add(tf4,BorderLayout.WEST);
+			inputPanel.add(n4);
+			inputPanel.add(tf4);
+			tf4.setDocument(new JTextFieldLimit(1));
+			
 			JPanel outputPanel = new JPanel();
-			JLabel textfield = new JLabel("textfield");
-			outputPanel.add(textfield,BorderLayout.CENTER);
+			JLabel textfield = new JLabel("Enter Lock Code");
+			textfield.setVisible(false);
+			outputPanel.add(textfield);
+			
+			
 			JPanel buttonPanel = new JPanel();
 			JButton NewButton1 = new JButton("Try");
 			buttonPanel.add(NewButton1,BorderLayout.WEST);
@@ -353,10 +365,22 @@ public class P1 extends JPanel implements ActionListener{
 					String temp_res = tf1.getText() + tf2.getText() + tf3.getText() + tf4.getText();
 					if(temp_res.equals(lvl1.passcode)){
 		        		timer1.cancel();
+		        	    dialog.removeAll();	
+		        	    dialog.setVisible(false);
 		        		removehere();
-		    			container.setContentPane(new P2(container));
+		    			container.setContentPane(new P2(container, P0));
 					}else{
-						JOptionPane.showMessageDialog( null, "Wrong answer!");
+						if(!temp_res.isEmpty())
+						{
+							textfield.setVisible(true);
+							textfield.setText("Wrong answer..Try again!");
+						}
+						else{
+							textfield.setVisible(true);
+							textfield.setText("Please enter 4 digit lock code!");
+						}
+						//JOptionPane.showMessageDialog( null, "Wrong answer!");
+
 					}
 				}
 			});
@@ -392,30 +416,24 @@ public class P1 extends JPanel implements ActionListener{
 			JOptionPane.showMessageDialog( null, hint);
 			
 	    }
-        else if(e.getSource().equals(items.get(0)))
-		{
-			JOptionPane.showMessageDialog( null, lvl1.clues.get(0).content,"Clue "+String.valueOf(lvl1.clues.get(0).id),JOptionPane.PLAIN_MESSAGE);
-		}
-		else if(e.getSource().equals(items.get(1)))
-		{
-			JOptionPane.showMessageDialog( null, lvl1.clues.get(1).content,"Clue "+String.valueOf(lvl1.clues.get(1).id),JOptionPane.PLAIN_MESSAGE);
-		}
-		else if(e.getSource().equals(items.get(2)))
-		{
-			JOptionPane.showMessageDialog( null, lvl1.clues.get(2).content,"Clue "+String.valueOf(lvl1.clues.get(2).id),JOptionPane.PLAIN_MESSAGE);
-		}
    }
    
 	void pause(){
     	timer1.cancel();
+    	isRunning = false;
+    	disablebuttons(restart);
     }
 	
     void resume(){
+    	if(isRunning == true) return;
         timer1 = new Timer();
         timer1.schedule(new RemindTask1(), 0, 1000);
+        isRunning = true;
+        enablebuttons();
     }
     
     class RemindTask1 extends TimerTask {
+    	
         public void run() {
         	//System.out.println(rest--);
         	rest--;
@@ -423,7 +441,7 @@ public class P1 extends JPanel implements ActionListener{
         	if(rest <= 0){
         		timer1.cancel();
         		removehere();
-    			container.setContentPane(new P3(container));
+    			container.setContentPane(new P3(container, P0));
         		//System.out.println("Timer is done!");
         	}
             //timer1.cancel(); //Terminate the timer thread
@@ -431,8 +449,32 @@ public class P1 extends JPanel implements ActionListener{
     }
     
     void removehere(){
+    	this.removeAll();
     	container.remove(this);
-    }   
+    }
+    
+    void disablebuttons(JButton st){
+    	for(JButton a: otherJButtons){
+    		if(a == st) continue;
+    		else a.setEnabled(false);
+    	}
+    	for(JButton a: items){
+    		a.setEnabled(false);
+    	}
+    }
+    
+    void enablebuttons(){
+    	for(JButton a: otherJButtons){
+    			a.setEnabled(true);
+    	}
+    	for(JButton a: items){
+    			if(a.getText() != "?") a.setEnabled(true);
+    	}    	
+    }
+    
+    
+    
+    
 }
 
 class imagePanel extends JPanel{
@@ -450,5 +492,28 @@ class imagePanel extends JPanel{
 	    super.paintComponent(g);
 	    // Draw the background image.
 	    g.drawImage(backgroundImage, 0, 0,this.getWidth(),this.getHeight(), this);
+	  }
+}
+
+
+class JTextFieldLimit extends PlainDocument {
+	  private int limit;
+	  JTextFieldLimit(int limit) {
+	    super();
+	    this.limit = limit;
+	  }
+
+	  JTextFieldLimit(int limit, boolean upper) {
+	    super();
+	    this.limit = limit;
+	  }
+
+	  public void insertString(int offset, String str, AttributeSet attr) throws BadLocationException {
+	    if (str == null)
+	      return;
+
+	    if ((getLength() + str.length()) <= limit) {
+	      super.insertString(offset, str, attr);
+	    }
 	  }
 }

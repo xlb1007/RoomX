@@ -1,92 +1,93 @@
 package RoomX;
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.*;
 
-public class P0 extends JFrame implements ActionListener {
-	private static final long serialVersionUID = 1L;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.SystemColor;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.ButtonGroup;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JRadioButton;
+import javax.swing.JTextArea;
+import javax.swing.border.EmptyBorder;
+
+public class P0 extends JPanel implements ActionListener{
 	JButton b1, exit;
 	JFrame container;
 	JRadioButton Level1, Level2;
-	JPanel P0;
-	//new
 	int lvl;
-	//Constructor
-	public P0() {
-		super("P0  Demo");
-		lvl = 0;
-		container = this;
-		container.setSize(1000,666);
-		container.setResizable(false);
-		container.setBackground(Color.orange);
-		container.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		
-		P0 = new JPanel();
-		P0.setLayout(null);
-		P0.setVisible(true);
-		P0.setBackground(Color.orange);
-		container.add(P0);
-		
+
+	public P0(JFrame container) {
+
+		this.container = container;
+		setLayout(null);
+		setVisible(true);
+		setBackground(Color.orange);
+		this.container.add(this);
+	
 		JTextArea instructions = new JTextArea();
 		instructions.setEditable(false);
-		//instructions.setHorizontalAlignment(JTextField.LEFT);
-		//instructions.setVerticalAlignment(JTextField.TOP);
 		instructions.setText("Room-escape is a adventure game.");
 		instructions.setBounds(200,50,120,40);
 		instructions.setSize(300,300);
-		P0.add(instructions);
-		
+		add(instructions);
+	
 		//JRadioButton
 		Level1 = new JRadioButton("Level-1");
 		Level1.setBounds(300,370,120,35);
-				
+			
 		Level2 = new JRadioButton("Level-2");
 		Level2.setBounds(300,470,120,35);
-		
+	
 		ButtonGroup Group = new ButtonGroup();
 		Group.add(Level1);
 		Group.add(Level2);
-				
-		P0.add(Level1);
-		P0.add(Level2);
-		
+			
+		add(Level1);
+		add(Level2);
+	
 		b1 = new JButton("Start");
 		b1.setBounds(280,550,120,35);
 		b1.setVisible(true);
-		//b1.setOpaque(false);
-		//b1.setContentAreaFilled(false);
-		//b1.setBorderPainted(false);
+	 
 		b1.setFocusable(false);
-		P0.add(b1);
-		
+		add(b1);
+	
 		//bug2
-        exit = new JButton("Exit");	
-        exit.setBounds(480,550,120,35);			
-        exit.setVisible(true);			
-			
-        exit.setFocusable(false);			
-        P0.add(exit);
+		exit = new JButton("Exit");	
+		exit.setBounds(480,550,120,35);			
+		exit.setVisible(true);			
 		
-		
-		
-		
-		
+		exit.setFocusable(false);			
+		add(exit);
+	
 		b1.addActionListener(this);
 		//bug2
 		exit.addActionListener(this);
 		Level1.addActionListener(this);
 		Level2.addActionListener(this);
-
-	
-		container.getContentPane().add(P0);
-		container.setVisible(true);
+		
+		setVisible(true);
 	}
-
+	
+	
+//	ActionListener actionListener = new ActionListener() {
+//	    @Override
+//	    public void actionPerformed(ActionEvent e) {
+//	        boolean enable = check1.isSelected() && check3.isSelected();
+//	        buttonToBeEnabled.setEnabled(enable);
+//	    }
+//	};
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == b1) {
 			//new
 			if(lvl == 0) return;
-			container.setContentPane(new P1(container, lvl, P0));
+			container.setContentPane(new P1(container, lvl, this));
 			container.remove(this);
 		}
 		if (e.getSource() == exit) {			
@@ -103,9 +104,5 @@ public class P0 extends JFrame implements ActionListener {
 				
 		}
 	}
-	//Main Program that starts Execution
-	public static void main(String args[]) {
-		P0 test = new P0();
-		
-	}
+    
 }

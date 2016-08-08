@@ -7,7 +7,7 @@ public class Process {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		pc = new PanelController();
-		Frame test = new Frame();
+		Frame test = new Frame(pc);
 		pc.addFrame(test);
 	}
 

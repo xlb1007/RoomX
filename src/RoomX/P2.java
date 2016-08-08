@@ -10,8 +10,9 @@ public class P2 extends JPanel{
 	public JFrame container;
 	private JPanel contentPane;
 	JPanel P0;
+	PanelController pc;
 	
-	public P2(JFrame container, JPanel P0) {
+	public P2(JFrame container, JPanel P0, PanelController pc) {
 		this.container = container;	
 		this.P0 = P0;
 		contentPane = new JPanel();
@@ -20,6 +21,7 @@ public class P2 extends JPanel{
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		container.setContentPane(contentPane);
 		contentPane.setLayout(null);
+		this.pc = pc;
 		
 		JButton btnNewButton = new JButton("End");
 		btnNewButton.setBackground(SystemColor.controlHighlight);
@@ -42,7 +44,8 @@ public class P2 extends JPanel{
 		btnRestart.setBackground(SystemColor.controlHighlight);
 		btnRestart.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-                container.setContentPane(P0);	
+//                container.setContentPane(P0);	
+				pc.switchPanel(0);
                 contentPane.removeAll();			
                 contentPane.setVisible(false);
 			}

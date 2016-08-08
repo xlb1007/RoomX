@@ -19,8 +19,9 @@ public class P3 extends JPanel {
 	public JFrame container;
 	private JPanel contentPane;
 	JPanel P0;
+	PanelController pc;
 	
-	public P3(JFrame container, JPanel P0) {
+	public P3(JFrame container, JPanel P0, PanelController pc) {
 		this.container = container;		
 		this.P0 = P0;
 		contentPane = new JPanel();
@@ -28,6 +29,7 @@ public class P3 extends JPanel {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		container.setContentPane(contentPane);
 		contentPane.setLayout(null);
+		this.pc = pc;
 	
 		JLabel lblSorryYouLost = new JLabel("Out of time! You failed!");
 		lblSorryYouLost.setForeground(Color.RED);
@@ -51,7 +53,8 @@ public class P3 extends JPanel {
 		btnNewButton_1.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-                container.setContentPane(P0);	
+//               container.setContentPane(P0);	
+				pc.switchPanel(0);
 	            contentPane.removeAll();			
 	            contentPane.setVisible(false);
 			}

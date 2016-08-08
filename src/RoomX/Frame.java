@@ -7,16 +7,20 @@ public class Frame extends JFrame {
 	private static final long serialVersionUID = 1L;
 	JFrame container;
 	JPanel P0;
-	public Frame() {
+	PanelController pc;
+	public Frame(PanelController pc) {
 		super("P0  Demo");
 		container = this;
+		this.pc = pc;
+		pc.addFrame(this);
 		container.setSize(1000,666);
 		container.setResizable(false);
 		container.setBackground(Color.orange);
 		container.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
-		P0 = new P0(container);
-		container.add(P0);
+//		P0 = new P0(container, pc);
+//		container.add(P0);
+		pc.switchPanel(0);
 		
 
 	

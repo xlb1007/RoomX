@@ -38,8 +38,10 @@ public class P1 extends JPanel implements ActionListener{
 	Level lvl1;
 	JPanel P0;
 	boolean isRunning;
+	//new
+	PanelController pc;
 	
-	public P1(JFrame container, int lvl, JPanel P0)
+	public P1(JFrame container, int lvl, JPanel P0, PanelController pc)
 	{
 
 		this.P0 = P0;
@@ -48,7 +50,9 @@ public class P1 extends JPanel implements ActionListener{
 		rest = lvl1.timer;
 	    items = new ArrayList<JButton>();
 	    otherJButtons = new ArrayList<JButton>();
-		
+	    //new
+	    this.pc = pc;
+	    
 		wallPanel = new imagePanel(lvl1);
 
 		
@@ -302,7 +306,8 @@ public class P1 extends JPanel implements ActionListener{
 			Quit.addActionListener(new ActionListener() { 
 				public void actionPerformed(ActionEvent e) { 
 					
-					container.setContentPane(P0);
+					//container.setContentPane(P0);
+					pc.switchPanel(0);
 					dialog.removeAll();
 					dialog.setVisible(false);
 				}
@@ -367,8 +372,9 @@ public class P1 extends JPanel implements ActionListener{
 		        		timer1.cancel();
 		        	    dialog.removeAll();	
 		        	    dialog.setVisible(false);
-		        		removehere();
-		    			container.setContentPane(new P2(container, P0));
+		        		// removehere();
+		    			//container.setContentPane(new P2(container, P0));
+		        	    pc.switchPanel(2);
 					}else{
 						if(!temp_res.isEmpty())
 						{
@@ -440,8 +446,9 @@ public class P1 extends JPanel implements ActionListener{
         	timer2.setText(rest.toString());
         	if(rest <= 0){
         		timer1.cancel();
-        		removehere();
-    			container.setContentPane(new P3(container, P0));
+        		//removehere();
+    			//container.setContentPane(new P3(container, P0));
+    			pc.switchPanel(3);
         		//System.out.println("Timer is done!");
         	}
             //timer1.cancel(); //Terminate the timer thread

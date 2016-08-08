@@ -21,14 +21,17 @@ public class P0 extends JPanel implements ActionListener{
 	JFrame container;
 	JRadioButton Level1, Level2;
 	int lvl;
+	PanelController pc;
 
-	public P0(JFrame container) {
+	public P0(JFrame container, PanelController pc) {
 
 		this.container = container;
 		setLayout(null);
 		setVisible(true);
 		setBackground(Color.orange);
 		this.container.add(this);
+		//new
+		this.pc = pc;
 	
 		JTextArea instructions = new JTextArea();
 		instructions.setEditable(false);
@@ -87,8 +90,9 @@ public class P0 extends JPanel implements ActionListener{
 		if (e.getSource() == b1) {
 			//new
 			if(lvl == 0) return;
-			container.setContentPane(new P1(container, lvl, this));
-			container.remove(this);
+//			container.remove(this);
+//			container.setContentPane(new P1(container, lvl, this, pc));
+			pc.switchPanel(1);
 		}
 		if (e.getSource() == exit) {			
 			System.exit(0);			

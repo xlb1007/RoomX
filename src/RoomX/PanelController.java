@@ -33,15 +33,15 @@ public class PanelController {
 	
 	public void switchPanel(int next){
 		
-		if(cur instanceof P0){
-			//this.p0.removeAll();;
-		}else if(cur instanceof P1){
-			this.p1.removeAll();
-		}else if(cur instanceof P2){
-			//this.p2.removeAll();
-		}else if(cur instanceof P3){
-			//this.p3.removeAll();
-		}		
+//		if(cur instanceof P0){
+//			//this.p0.removeAll();;
+//		}else if(cur instanceof P1){
+//			this.p1.removeAll();
+//		}else if(cur instanceof P2){
+//			//this.p2.removeAll();
+//		}else if(cur instanceof P3){
+//			//this.p3.removeAll();
+//		}		
 		//frame.removeAll();
 		//if(cur != null) frame.remove(cur);
 		switch(next){

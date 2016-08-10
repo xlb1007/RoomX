@@ -25,11 +25,11 @@ public class P0 extends JPanel implements ActionListener{
 
 	public P0(JFrame container, PanelController pc) {
 
-		this.container = container;
+		//this.container = container;
 		setLayout(null);
 		setVisible(true);
 		setBackground(Color.orange);
-		this.container.add(this);
+		//this.container.add(this);
 		//new
 		this.pc = pc;
 	

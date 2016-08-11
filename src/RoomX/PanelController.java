@@ -31,7 +31,7 @@ public class PanelController {
 		}
 	}
 	
-	public void switchPanel(int next){
+	public void switchPanel(int next, int acc){
 		
 //		if(cur instanceof P0){
 //			//this.p0.removeAll();;
@@ -43,27 +43,32 @@ public class PanelController {
 //			//this.p3.removeAll();
 //		}		
 		//frame.removeAll();
+		//frame.dispose();
+
 		//if(cur != null) frame.remove(cur);
 		switch(next){
 		case 0:
-			if(p0 == null) p0 = new P0(frame, this);
+			if(p0 == null) p0 = new P0(this);
 			frame.setContentPane(p0);
-			//frame.add(p0);
+			frame.setVisible(true);
 			cur = p0;
 			break;
 		case 1: 
-			p1 = new P1(frame, 1, p0, this);
+			p1 = new P1(1, this);
 			frame.setContentPane(p1);
+			//frame.setVisible(true);
 			cur = p1;
 			break;
 		case 2: 
-			p2 = new P2(frame, p0, this);
+			p2 = new P2(this);
 			frame.setContentPane(p2);
+			//frame.setVisible(true);
 			cur = p2;
 			break;
 		case 3: 
-			p3 = new P3(frame, p0, this);
+			p3 = new P3(this);
 			frame.setContentPane(p3);
+			//frame.setVisible(true);
 			cur = p3;
 			break;
 		}

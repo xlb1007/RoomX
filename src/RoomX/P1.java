@@ -40,7 +40,7 @@ public class P1 extends JPanel implements ActionListener{
 	//new
 	PanelController pc;
     private String itemImg = "";
-
+	JDialog cur_dialog;
 	
 	public P1(int lvl, PanelController pc)
 	{
@@ -140,12 +140,49 @@ public class P1 extends JPanel implements ActionListener{
 			//item1.setPreferredSize(new Dimension(120, 100));
 			item.addActionListener(new ActionListener(){			
 				public void actionPerformed(ActionEvent e){			
-					//JOptionPane.showMessageDialog( null, a.content,"Puzzle "+String.valueOf(a.id),JOptionPane.PLAIN_MESSAGE);	
-                    itemImg = getItemImagePath(lvl1.level,a.id);
-                    UIManager.put("JOptionPane.background",Color.YELLOW);
-                    JOptionPane.showMessageDialog( null, getMessagePanel(a.content,itemImg),"Puzzle"+String.valueOf(a.id),JOptionPane.PLAIN_MESSAGE);    
-                    UIManager.put("JOptionPane.background",Color.WHITE);               
+
+			    	JDialog dialog = new JDialog();
+			    	cur_dialog = dialog;
+			    	Container window = dialog.getContentPane();
+			    	dialog.setSize(200, 100);	
+			    	itemImg = getItemImagePath(lvl1.level,a.id);
+			    	//System.out.println(itemImg);
+			    	JPanel dialogPanel = new imagePanel1(itemImg);
+			    	dialogPanel.setBackground(new Color(255, 255, 204, 1));
+			    	dialogPanel.setLayout(new BoxLayout(dialogPanel,BoxLayout.Y_AXIS));
+			    	dialogPanel.setSize(new Dimension(300, 200));
+			    	dialogPanel.setBorder(BorderFactory.createLineBorder(Color.WHITE));
+
+			    	JButton save = new JButton("OK");
+			    	save.setFont(new Font("Comic Sans MS", Font.BOLD, 16));
+			    	save.setForeground(new Color(51, 0, 0));
+			    	save.setPreferredSize(new Dimension(50,30));
+			    	save.setBackground(new Color(255, 255, 255));
+			    	save.setFocusPainted(false);
+			    	JLabel puzzle = new JLabel();
+			    	puzzle.setFont(new Font("Comic Sans MS", Font.BOLD, 22));
+			    	puzzle.setText("Found Clue");
+			    	puzzle.setForeground(Color.WHITE);
+			    	dialogPanel.add(Box.createRigidArea(new Dimension(75,10)));
+			    	dialogPanel.add(puzzle);
+			    	dialogPanel.add(Box.createVerticalGlue());
+			    	dialogPanel.add(save);
+			    	dialogPanel.add(Box.createRigidArea(new Dimension(0,10)));
+			    	dialog.setUndecorated(true);
+			    	window.add(dialogPanel);
+			    	dialog.setVisible(true);
+			    	dialog.setLocationRelativeTo(null);
+
+					disablebuttons(null);
+					dialog.setAlwaysOnTop(true);
 					
+					
+					save.addActionListener(new ActionListener() { 
+						public void actionPerformed(ActionEvent e) { 
+							enablebuttons();
+							dialog.dispose();
+						 } 
+					});
 				}        			
 			});
 			items.add(item);
@@ -166,6 +203,7 @@ public class P1 extends JPanel implements ActionListener{
 			    {
 			    	a.found = true;
 			    	JDialog dialog = new JDialog();
+			    	cur_dialog = dialog;
 			    	Container window = dialog.getContentPane();
 			    	dialog.setSize(200, 100);	
 			    	itemImg = getItemImagePath(lvl1.level,a.id);
@@ -195,44 +233,24 @@ public class P1 extends JPanel implements ActionListener{
 			    	window.add(dialogPanel);
 			    	dialog.setVisible(true);
 			    	dialog.setLocationRelativeTo(obj);
-			    	//dialog.setLocation(a.hpos, a.vpos);
+					disablebuttons(null);
+					dialog.setAlwaysOnTop(true);
+
+					
 			    	
 			    	save.addActionListener(new ActionListener() { 
 						public void actionPerformed(ActionEvent e) { 
+							enablebuttons();
+
 							itemImg = getItemImagePath(lvl1.level,a.id); 
-							if(a.id == 1)
-							   {
-								   if(!items.get(0).isEnabled())
-								   {
-                                       items.get(0).setIcon(getScaledIcon(itemImg,20,20));
-									   items.get(0).setEnabled(true);
-									   items.get(0).revalidate();
-									   items.get(0).setText(String.valueOf(a.id));
+
+							if(!items.get(a.id-1).isEnabled()){
+                                items.get(a.id-1).setIcon(getScaledIcon(itemImg,20,20));
+								items.get(a.id-1).setEnabled(true);
+								items.get(a.id-1).revalidate();
+								items.get(a.id-1).setText(String.valueOf(a.id));
 									   //items.get(0).setBackground(Color.CYAN);
-								   }
-							   }
-							   else if(a.id == 2)
-							   {
-								   if(!items.get(1).isEnabled())
-								   {
-									   items.get(1).setIcon(getScaledIcon(itemImg,20,20));
-									   items.get(1).setEnabled(true);
-									   items.get(1).revalidate();
-									   items.get(1).setText(String.valueOf(a.id));
-									   //items.get(1).setBackground(Color.CYAN);
-								   }
-							   }
-							   else if(a.id == 3)
-							   {
-								   if(!items.get(2).isEnabled())
-								   {
-									   items.get(2).setIcon(getScaledIcon(itemImg,20,20));
-									   items.get(2).revalidate();
-									   items.get(2).setEnabled(true);
-									   items.get(2).setText(String.valueOf(a.id));
-									   //items.get(2).setBackground(Color.CYAN);
-								   }
-							   }
+							}
 							 dialog.dispose();
 						  } 
 					} );
@@ -303,6 +321,7 @@ public class P1 extends JPanel implements ActionListener{
 			//JOptionPane.showMessageDialog( null, "Go back?" );
 			
 			JDialog dialog = new JDialog();
+			cur_dialog = dialog;
 			dialog.getContentPane().setBackground(new Color(255, 255, 204));
 	    	dialog.setLocationRelativeTo(pause);
 	    	Container window = dialog.getContentPane();
@@ -371,13 +390,79 @@ public class P1 extends JPanel implements ActionListener{
 			    	break;
 				}
 			}
-		    UIManager.put("JOptionPane.background",Color.YELLOW);
-			JOptionPane.showMessageDialog( null, getMessagePanel(hint,"images/bulb.png"),"Hint",JOptionPane.PLAIN_MESSAGE);	
-			UIManager.put("JOptionPane.background",Color.WHITE);
+//		    UIManager.put("JOptionPane.background",Color.YELLOW);
+//			JOptionPane.showMessageDialog( null, getMessagePanel(hint,"images/bulb.png"),"Hint",JOptionPane.PLAIN_MESSAGE);	
+//			UIManager.put("JOptionPane.background",Color.WHITE);
+			
+			
+
+	    	JDialog dialog = new JDialog();
+	    	cur_dialog = dialog;
+	    	Container window = dialog.getContentPane();
+	    	dialog.setSize(200, 100);	
+	    	itemImg = "images/bulb.png";
+	    	JPanel dialogPanel = new imagePanel1(itemImg);
+	    	dialogPanel.setBackground(new Color(255, 255, 204, 1));
+	    	dialogPanel.setLayout(new BoxLayout(dialogPanel,BoxLayout.Y_AXIS));
+	    	dialogPanel.setSize(new Dimension(300, 200));
+	    	dialogPanel.setBorder(BorderFactory.createLineBorder(Color.WHITE));
+
+	    	JButton save = new JButton("OK");
+	    	save.setFont(new Font("Comic Sans MS", Font.BOLD, 16));
+	    	save.setForeground(new Color(51, 0, 0));
+	    	save.setPreferredSize(new Dimension(50,30));
+	    	save.setBackground(new Color(255, 255, 255));
+	    	save.setFocusPainted(false);
+	    	JLabel puzzle = new JLabel();
+	    	puzzle.setFont(new Font("Comic Sans MS", Font.BOLD, 22));
+	    	puzzle.setText("Found Clue");
+	    	puzzle.setForeground(Color.WHITE);
+	    	dialogPanel.add(Box.createRigidArea(new Dimension(75,10)));
+	    	dialogPanel.add(puzzle);
+	    	dialogPanel.add(Box.createVerticalGlue());
+	    	dialogPanel.add(save);
+	    	dialogPanel.add(Box.createRigidArea(new Dimension(0,10)));
+	    	dialog.setUndecorated(true);
+	    	window.add(dialogPanel);
+	    	dialog.setVisible(true);
+	    	dialog.setLocationRelativeTo(null);
+
+			disablebuttons(null);
+			dialog.setAlwaysOnTop(true);
+			
+			
+			save.addActionListener(new ActionListener() { 
+				public void actionPerformed(ActionEvent e) { 
+					enablebuttons();
+					dialog.dispose();
+				 } 
+			});			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+
 	    }
 		else if(e.getSource().equals(lock))
 	    {
 			JDialog dialog = new JDialog();
+			cur_dialog = dialog;
+			dialog.setAlwaysOnTop(true);
 			Container container2 = dialog.getContentPane();
 	    	container2.setLayout(new BorderLayout());
 	    	dialog.setLocationRelativeTo(controlPanel);
@@ -468,6 +553,7 @@ public class P1 extends JPanel implements ActionListener{
 				public void actionPerformed(ActionEvent arg0) {
 					String temp_res = tf1.getText() + tf2.getText() + tf3.getText() + tf4.getText();
 					if(temp_res.equals("4444")){
+						enablebuttons();
 		        		//timer1.cancel();
 		        	    removeAll();	
 		        	    setVisible(false);
@@ -491,6 +577,7 @@ public class P1 extends JPanel implements ActionListener{
 			});
 			NewButton2.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
+					enablebuttons();
 					dialog.dispose();
 				}
 			});
@@ -504,6 +591,7 @@ public class P1 extends JPanel implements ActionListener{
 	        //dialog.add(container2);
 	    	//pack();
 	        dialog.setVisible(true);
+	        disablebuttons(null);
 		}
    }
    
@@ -531,6 +619,10 @@ public class P1 extends JPanel implements ActionListener{
         		timer1.cancel();
         		//removehere();
     			//container.setContentPane(new P3(container, P0));
+        		if(cur_dialog != null){
+        			cur_dialog.removeAll();
+        			cur_dialog.setVisible(false);
+        		}
     			pc.switchPanel(3, 0);
         		//System.out.println("Timer is done!");
         	}

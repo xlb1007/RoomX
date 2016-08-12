@@ -13,7 +13,7 @@ public class Level {
 	public Level(int level){
 		if(level == 1){
 			this.level = 1;
-		    this.timer = 100;
+		    this.timer = 30;
 		    this.passcode = "4444";
 		    this.imageDir = "images/catoon child room.jpg";
 		    clues = new ArrayList<Clue>();

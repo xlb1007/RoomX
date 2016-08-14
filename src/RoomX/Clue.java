@@ -1,6 +1,6 @@
 package RoomX;
 public class Clue {
-	//int type;
+	int type;
 	String content;
 	boolean found;
 	String hint;
@@ -10,10 +10,10 @@ public class Clue {
 	int hsize;
 	int id;
     //public Clue(int type, String content, int found, String hint, int vpos, int hpos, int vsize, int hsize){
-    public Clue(int id, String content, int hpos, int vpos, int hsize, int vsize, String hint){
+    public Clue(int id, String content, int hpos, int vpos, int hsize, int vsize, String hint,int type){
         this.id = id;
     	this.content = content;
-    	//this.type = type;
+    	this.type = type;
     	//this.found = 0;
     	//this.hint = hint;
     	this.vpos = vpos;

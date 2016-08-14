@@ -136,7 +136,6 @@ public class P0 extends JPanel implements ActionListener{
 		if (e.getSource() == Level1) {
 			//new
 			lvl = 1;	
-				
 		}
 		if (e.getSource() == Level2) {
 			//new

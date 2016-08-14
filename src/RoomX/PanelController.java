@@ -54,7 +54,7 @@ public class PanelController {
 			cur = p0;
 			break;
 		case 1: 
-			p1 = new P1(1, this);
+			p1 = new P1(acc, this);
 			frame.setContentPane(p1);
 			//frame.setVisible(true);
 			cur = p1;

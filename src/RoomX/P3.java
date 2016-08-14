@@ -1,10 +1,16 @@
 package RoomX;
 
 import java.awt.*;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 
 import javax.imageio.ImageIO;
 import javax.sound.sampled.AudioSystem;
@@ -16,6 +22,7 @@ public class P3 extends JPanel {
 	private Image backgroundImage;
 
 	PanelController pc;
+	Clip clip3;
 	
 	public P3(PanelController pc) {
 		
@@ -24,7 +31,24 @@ public class P3 extends JPanel {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
+		try {
+	         // Open an audio input stream.
+	         URL url = this.getClass().getClassLoader().getResource("music/lost.wav");
+	         AudioInputStream audioIn = AudioSystem.getAudioInputStream(url);
+	         // Get a sound clip resource.
+	         clip3 = AudioSystem.getClip();
+	         // Open audio clip and load samples from the audio input stream.
+	         clip3.open(audioIn);
+	         clip3.start();
+	      } catch (UnsupportedAudioFileException e1) {
+	         e1.printStackTrace();
+	      } catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (LineUnavailableException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		setBackground(SystemColor.menuText);
 		setBorder(new EmptyBorder(5, 5, 5, 5));
 		setLayout(null);
@@ -70,6 +94,7 @@ public class P3 extends JPanel {
 
 		setSize(1000,666);
 		setVisible(true);
+		
 	}
 	
 	public void paintComponent(Graphics g) {

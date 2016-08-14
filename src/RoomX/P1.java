@@ -5,8 +5,14 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.net.URL;
 
 import javax.imageio.ImageIO;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import javax.swing.border.BevelBorder;
@@ -36,11 +42,13 @@ public class P1 extends JPanel implements ActionListener{
 	Timer timer1;
 	JLabel timer2;
 	Level lvl1;
+	Clip clip,clip1;
 	boolean isRunning;
 	//new
 	PanelController pc;
-    private String itemImg = "";
 	JDialog cur_dialog;
+    private String itemImg = "";
+
 	
 	public P1(int lvl, PanelController pc)
 	{
@@ -55,7 +63,24 @@ public class P1 extends JPanel implements ActionListener{
 
 	    
 		wallPanel = new imagePanel1(lvl1.imageDir);
-
+		try {
+	         // Open an audio input stream.
+	         URL url = this.getClass().getClassLoader().getResource("music/GBM.wav");
+	         AudioInputStream audioIn = AudioSystem.getAudioInputStream(url);
+	         // Get a sound clip resource.
+	         clip = AudioSystem.getClip();
+	         // Open audio clip and load samples from the audio input stream.
+	         clip.open(audioIn);
+	         clip.start();
+	         
+	      } catch (UnsupportedAudioFileException e) {
+	         e.printStackTrace();
+	      } catch (IOException e) {
+	         e.printStackTrace();
+	      } catch (LineUnavailableException e) {
+	         e.printStackTrace();
+	      }
+	   
 		
 		//Create Top Panel
 		controlPanel = new JPanel();
@@ -131,6 +156,8 @@ public class P1 extends JPanel implements ActionListener{
 		
 ///////////////////// Aug: not working correctly		
 		for(Clue a : lvl1.clues){
+			if(a.type != 0)
+			{
             itemImg = getItemImagePath(lvl1.level,a.id);
 			JButton item = new JButton("?");
 			item.setBackground(new Color(153, 102, 51));
@@ -151,7 +178,7 @@ public class P1 extends JPanel implements ActionListener{
 			    	dialogPanel.setBackground(new Color(255, 255, 204, 1));
 			    	dialogPanel.setLayout(new BoxLayout(dialogPanel,BoxLayout.Y_AXIS));
 			    	dialogPanel.setSize(new Dimension(300, 200));
-			    	dialogPanel.setBorder(BorderFactory.createLineBorder(Color.WHITE));
+			    	dialogPanel.setBorder(BorderFactory.createLineBorder(Color.WHITE,5));
 
 			    	JButton save = new JButton("OK");
 			    	save.setFont(new Font("Comic Sans MS", Font.BOLD, 16));
@@ -187,7 +214,7 @@ public class P1 extends JPanel implements ActionListener{
 			});
 			items.add(item);
 			displayPanel.add(item);
-			
+			}
 			
 			//Adding invisible buttons for hidden clues/puzzles
 			JButton obj = new JButton("");
@@ -199,59 +226,99 @@ public class P1 extends JPanel implements ActionListener{
 			obj.setBounds(a.hpos,a.vpos,a.hsize,a.vsize);
 			obj.addActionListener(new ActionListener()
 			{
+				
+				
 			    public void actionPerformed(ActionEvent e)
 			    {
+			    	 
+			    	try {
+				         // Open an audio input stream.
+				         URL url = this.getClass().getClassLoader().getResource("music/Clue.wav");
+				         AudioInputStream audioIn = AudioSystem.getAudioInputStream(url);
+				         // Get a sound clip resource.
+				         clip1 = AudioSystem.getClip();
+				         // Open audio clip and load samples from the audio input stream.
+				         clip1.open(audioIn);
+				         clip1.start();
+				      } catch (UnsupportedAudioFileException e1) {
+				         e1.printStackTrace();
+				      } catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					} catch (LineUnavailableException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
 			    	a.found = true;
 			    	JDialog dialog = new JDialog();
 			    	cur_dialog = dialog;
 			    	Container window = dialog.getContentPane();
-			    	dialog.setSize(200, 100);	
-			    	itemImg = getItemImagePath(lvl1.level,a.id);
+			    	dialog.setSize(200, 200);	
+			    	if(a.type == 1)
+			    		itemImg = getItemImagePath(lvl1.level,a.id);
+			    	else if(a.type == 2)
+			    		itemImg = "images/Pic"+a.id+".jpg";
+			    	else
+			    		itemImg = "images/sad1.jpg";
 			    	//System.out.println(itemImg);
-			    	JPanel dialogPanel = new imagePanel1(itemImg);
+			    	JPanel dialogPanel = new imagePanel1("images/wood.jpg");
 			    	dialogPanel.setBackground(new Color(255, 255, 204, 1));
 			    	dialogPanel.setLayout(new BoxLayout(dialogPanel,BoxLayout.Y_AXIS));
-			    	dialogPanel.setSize(new Dimension(300, 200));
-			    	dialogPanel.setBorder(BorderFactory.createLineBorder(Color.WHITE));
+			    	dialogPanel.setSize(new Dimension(200, 200));
+			    	dialogPanel.setBorder(BorderFactory.createLineBorder(Color.WHITE,5));
 
-			    	JButton save = new JButton("SAVE");
+			    	String text = "SAVE";
+			    	if(a.type == 0)
+			    		text = "OK"; 
+			    	JButton save = new JButton(text);
 			    	save.setFont(new Font("Comic Sans MS", Font.BOLD, 16));
 			    	save.setForeground(new Color(51, 0, 0));
 			    	save.setPreferredSize(new Dimension(50,30));
 			    	save.setBackground(new Color(255, 255, 255));
 			    	save.setFocusPainted(false);
-			    	JLabel puzzle = new JLabel();
-			    	puzzle.setFont(new Font("Comic Sans MS", Font.BOLD, 22));
-			    	puzzle.setText("Clue");
-			    	puzzle.setForeground(Color.WHITE);
-			    	dialogPanel.add(Box.createRigidArea(new Dimension(75,10)));
-			    	dialogPanel.add(puzzle);
-			    	dialogPanel.add(Box.createVerticalGlue());
-			    	dialogPanel.add(save);
+			    	save.setAlignmentX(Component.CENTER_ALIGNMENT);
+			    	
+			    	JPanel picWindow = new imagePanel1(itemImg);
+			    	picWindow.setSize(200, 100);
+			    	if(a.type == 1)
+			    	{
+			    	    JLabel puzzle = new JLabel();
+			    	    puzzle.setFont(new Font("Comic Sans MS", Font.BOLD, 22));
+			    	    puzzle.setText("Clue");
+			    	    puzzle.setForeground(Color.WHITE);
+			    	    //dialogPanel.add(Box.createRigidArea(new Dimension(75,10)));
+			    	    picWindow.add(puzzle);
+			    	}
+			    	dialogPanel.add(picWindow);
+			    	//dialogPanel.add(Box.createVerticalGlue());
 			    	dialogPanel.add(Box.createRigidArea(new Dimension(0,10)));
+			    	dialogPanel.add(save);
+			    	dialogPanel.add(Box.createRigidArea(new Dimension(0,10)));		    
 			    	dialog.setUndecorated(true);
 			    	window.add(dialogPanel);
 			    	dialog.setVisible(true);
 			    	dialog.setLocationRelativeTo(obj);
 					disablebuttons(null);
 					dialog.setAlwaysOnTop(true);
-
-					
-			    	
+	    	
 			    	save.addActionListener(new ActionListener() { 
 						public void actionPerformed(ActionEvent e) { 
+							
 							enablebuttons();
-
+							if(a.type !=0)
+							{
 							itemImg = getItemImagePath(lvl1.level,a.id); 
-
+                            
 							if(!items.get(a.id-1).isEnabled()){
                                 items.get(a.id-1).setIcon(getScaledIcon(itemImg,20,20));
 								items.get(a.id-1).setEnabled(true);
 								items.get(a.id-1).revalidate();
 								items.get(a.id-1).setText(String.valueOf(a.id));
-									   //items.get(0).setBackground(Color.CYAN);
+							    //items.get(0).setBackground(Color.CYAN);
+							}
 							}
 							 dialog.dispose();
+				        		clip1.stop();
 						  } 
 					} );
 			    }
@@ -259,7 +326,6 @@ public class P1 extends JPanel implements ActionListener{
 			wallPanel.add(obj);
 		}
 		
-
 		displayPanel.add(Box.createVerticalGlue());
 		ImageIcon clue_icon = getScaledIcon("images/bulb.png",75,75);
 		clue = new JButton(clue_icon);
@@ -296,7 +362,7 @@ public class P1 extends JPanel implements ActionListener{
 		lock.createToolTip();
 		lock.setToolTipText("Click to unlock");
 		displayPanel.add(lock);	
-		otherJButtons.add(lock);		
+		otherJButtons.add(lock);	
 		wallPanel.setLayout(new BorderLayout());
 		
 		setLayout(new BorderLayout());
@@ -319,7 +385,7 @@ public class P1 extends JPanel implements ActionListener{
 		{   
 			this.pause();
 			//JOptionPane.showMessageDialog( null, "Go back?" );
-			
+			clip.stop();
 			JDialog dialog = new JDialog();
 			cur_dialog = dialog;
 			dialog.getContentPane().setBackground(new Color(255, 255, 204));
@@ -332,7 +398,7 @@ public class P1 extends JPanel implements ActionListener{
 			
 			stopmsg.setBackground(new Color(255, 255, 204));
 			JButton Continue = new JButton("Continue");
-			Continue.setForeground(new Color(255, 255, 255));
+			//Continue.setForeground(new Color(255, 255, 255));
 			Continue.setBackground(new Color(153, 0, 0));
 			Continue.setFont(new Font("Comic Sans MS", Font.BOLD, 18));
 			Continue.setVisible(true);
@@ -344,12 +410,13 @@ public class P1 extends JPanel implements ActionListener{
 				public void actionPerformed(ActionEvent e) { 
 					dialog.removeAll();
 					dialog.setVisible(false);
-					resume();			
+					resume();
+					
 				} 
 			} );
 			
 			JButton Quit = new JButton("Quit");
-			Quit.setForeground(new Color(255, 255, 255));
+			//Quit.setForeground(new Color(255, 255, 255));
 			Quit.setBackground(new Color(153, 0, 0));
 			Quit.setFont(new Font("Comic Sans MS", Font.BOLD, 18));
 			Quit.setVisible(true);
@@ -366,6 +433,8 @@ public class P1 extends JPanel implements ActionListener{
 					pc.switchPanel(0, 0);
 					dialog.removeAll();
 					dialog.setVisible(false);
+					clip.stop();
+
 				}
 			} );
 			window.add(stopmsg);
@@ -390,79 +459,57 @@ public class P1 extends JPanel implements ActionListener{
 			    	break;
 				}
 			}
-//		    UIManager.put("JOptionPane.background",Color.YELLOW);
-//			JOptionPane.showMessageDialog( null, getMessagePanel(hint,"images/bulb.png"),"Hint",JOptionPane.PLAIN_MESSAGE);	
-//			UIManager.put("JOptionPane.background",Color.WHITE);
-			
-			
-
-	    	JDialog dialog = new JDialog();
-	    	cur_dialog = dialog;
-	    	Container window = dialog.getContentPane();
-	    	dialog.setSize(200, 100);	
-	    	itemImg = "images/bulb.png";
-	    	JPanel dialogPanel = new imagePanel1(itemImg);
-	    	dialogPanel.setBackground(new Color(255, 255, 204, 1));
-	    	dialogPanel.setLayout(new BoxLayout(dialogPanel,BoxLayout.Y_AXIS));
-	    	dialogPanel.setSize(new Dimension(300, 200));
-	    	dialogPanel.setBorder(BorderFactory.createLineBorder(Color.WHITE));
-
-	    	JButton save = new JButton("OK");
-	    	save.setFont(new Font("Comic Sans MS", Font.BOLD, 16));
-	    	save.setForeground(new Color(51, 0, 0));
-	    	save.setPreferredSize(new Dimension(50,30));
-	    	save.setBackground(new Color(255, 255, 255));
-	    	save.setFocusPainted(false);
-	    	JLabel puzzle = new JLabel();
-	    	puzzle.setFont(new Font("Comic Sans MS", Font.BOLD, 22));
-	    	puzzle.setText("Found Clue");
-	    	puzzle.setForeground(Color.WHITE);
-	    	dialogPanel.add(Box.createRigidArea(new Dimension(75,10)));
-	    	dialogPanel.add(puzzle);
-	    	dialogPanel.add(Box.createVerticalGlue());
-	    	dialogPanel.add(save);
-	    	dialogPanel.add(Box.createRigidArea(new Dimension(0,10)));
-	    	dialog.setUndecorated(true);
-	    	window.add(dialogPanel);
-	    	dialog.setVisible(true);
-	    	dialog.setLocationRelativeTo(null);
-
-			disablebuttons(null);
-			dialog.setAlwaysOnTop(true);
-			
-			
-			save.addActionListener(new ActionListener() { 
-				public void actionPerformed(ActionEvent e) { 
-					enablebuttons();
-					dialog.dispose();
-				 } 
-			});			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-
+		    //UIManager.put("JOptionPane.background",Color.YELLOW);
+			//JOptionPane.showMessageDialog( null, getMessagePanel(hint,"images/bulb.png"),"Hint",JOptionPane.PLAIN_MESSAGE);	
+			//UIManager.put("JOptionPane.background",Color.WHITE);
+			JDialog dialog = new JDialog();
+            cur_dialog = dialog;
+            Container window = dialog.getContentPane();
+            dialog.setSize(200, 100);   
+            itemImg = "images/bulb.png";
+            JPanel dialogPanel = new imagePanel1(itemImg);
+            dialogPanel.setBackground(new Color(255, 255, 204, 1));
+            dialogPanel.setLayout(new BoxLayout(dialogPanel,BoxLayout.Y_AXIS));
+            dialogPanel.setSize(new Dimension(300, 200));
+            dialogPanel.setBorder(BorderFactory.createLineBorder(Color.WHITE));
+ 
+            JButton save = new JButton("OK");
+            save.setFont(new Font("Comic Sans MS", Font.BOLD, 16));
+            save.setForeground(new Color(51, 0, 0));
+            save.setPreferredSize(new Dimension(50,30));
+            save.setBackground(new Color(255, 255, 255));
+            save.setFocusPainted(false);
+            JLabel puzzle = new JLabel();
+            puzzle.setFont(new Font("Comic Sans MS", Font.BOLD, 22));
+            puzzle.setText("Found Clue");
+            puzzle.setForeground(Color.WHITE);
+            dialogPanel.add(Box.createRigidArea(new Dimension(75,10)));
+            dialogPanel.add(puzzle);
+            dialogPanel.add(Box.createVerticalGlue());
+            dialogPanel.add(save);
+            dialogPanel.add(Box.createRigidArea(new Dimension(0,10)));
+            dialog.setUndecorated(true);
+            window.add(dialogPanel);
+            dialog.setVisible(true);
+            dialog.setLocationRelativeTo(null);
+ 
+            disablebuttons(null);
+            dialog.setAlwaysOnTop(true);
+            
+            
+            save.addActionListener(new ActionListener() { 
+                public void actionPerformed(ActionEvent e) { 
+                    enablebuttons();
+                    dialog.dispose();
+                 } 
+            });         
+            
 	    }
 		else if(e.getSource().equals(lock))
 	    {
 			JDialog dialog = new JDialog();
 			cur_dialog = dialog;
-			dialog.setAlwaysOnTop(true);
+            dialog.setAlwaysOnTop(true);
 			Container container2 = dialog.getContentPane();
 	    	container2.setLayout(new BorderLayout());
 	    	dialog.setLocationRelativeTo(controlPanel);
@@ -554,11 +601,15 @@ public class P1 extends JPanel implements ActionListener{
 					String temp_res = tf1.getText() + tf2.getText() + tf3.getText() + tf4.getText();
 					if(temp_res.equals("4444")){
 						enablebuttons();
-		        		//timer1.cancel();
+						cur_dialog.removeAll();
+						cur_dialog.setVisible(false);
+		        		timer1.cancel();
 		        	    removeAll();	
 		        	    setVisible(false);
 		        		//removehere();
 		    			pc.switchPanel(2, 0);
+						clip.stop();
+
 					}else{
 						if(!temp_res.isEmpty())
 						{
@@ -593,12 +644,14 @@ public class P1 extends JPanel implements ActionListener{
 	        dialog.setVisible(true);
 	        disablebuttons(null);
 		}
+	    
    }
    
 	void pause(){
     	timer1.cancel();
     	isRunning = false;
     	disablebuttons(restart);
+    	clip.stop();
     }
 	
     void resume(){
@@ -607,6 +660,9 @@ public class P1 extends JPanel implements ActionListener{
         timer1.schedule(new RemindTask1(), 0, 1000);
         isRunning = true;
         enablebuttons();
+        
+        clip.setFramePosition(0);
+        clip.start();
     }
     
     class RemindTask1 extends TimerTask {
@@ -617,12 +673,17 @@ public class P1 extends JPanel implements ActionListener{
         	timer2.setText(rest.toString());
         	if(rest <= 0){
         		timer1.cancel();
+        		if (clip1 != null && clip1.isRunning()) clip1.stop();
+        		
+        		clip.stop();
+        		
+
         		//removehere();
     			//container.setContentPane(new P3(container, P0));
         		if(cur_dialog != null){
-        			cur_dialog.removeAll();
-        			cur_dialog.setVisible(false);
-        		}
+                    cur_dialog.removeAll();
+                    cur_dialog.setVisible(false);
+                }
     			pc.switchPanel(3, 0);
         		//System.out.println("Timer is done!");
         	}
@@ -676,6 +737,8 @@ public class P1 extends JPanel implements ActionListener{
  				   img = "images/ball.png";
  			   else if(id == 1)
  				   img = "images/box.png";
+ 			   else if(id == 4)
+				   img = "images/doll.png";
  			   else
  				   img = "images/solve_clue.jpg";
  		    
@@ -688,6 +751,8 @@ public class P1 extends JPanel implements ActionListener{
  				   img = "images/light.png";
  			   else if(id == 3)
  				   img = "images/tub.png";
+ 			   else if(id == 4)
+ 				   img = "images/bread.png";
  			   else
  				   img = "images/solve_clue.jpg";    
  	   }
